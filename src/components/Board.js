@@ -3,29 +3,29 @@ import React from "react";
 import Square from "./Square";
 
 export default function Board() {
-  const [squares, setSquares] = React.useState([
-    "🐶",
-    null,
-    "🐱‍👤",
-    "🐱‍👤",
-    "🐱‍👤",
-    "🐶",
-    null,
-    null,
-    null,
-  ]);
+  const [squares, setSquares] = React.useState(Array(9).fill(null));
+  const [isDogNext, setIsDogNext] = React.useState(true);
 
-  const status = "Next player: 🐶";
+  const nextPlayer = isDogNext ? "🐶" : "🐱‍👤";
+  // const status = isDogNext ? "Next player: 🐶" : "Next player: 🐱‍👤";
+  // const status = "Next player: " + (isDogNext ? "🐶" : "🐱‍👤");
+  const status = `Next player: ${nextPlayer}`;
 
   const handleClick = (index) => {
     // Copy squares
     const squaresClone = [...squares];
 
     // Modify value by index
-    squaresClone[index] = "🐶";
+    squaresClone[index] = nextPlayer;
+    // if (isDogNext) {
+    //   squaresClone[index] = "🐶";
+    // } else {
+    //   squaresClone[index] = "🐱‍👤"
+    // }
 
     // Set new state
     setSquares(squaresClone);
+    setIsDogNext(!isDogNext);
   };
 
   return (
