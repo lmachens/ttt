@@ -1,27 +1,27 @@
 import "./board.css";
 import React from "react";
 import Square from "./Square";
+import { calculateWinner } from "../api/game";
 
 export default function Board() {
   const [squares, setSquares] = React.useState(Array(9).fill(null));
   const [isDogNext, setIsDogNext] = React.useState(true);
 
+  const winner = calculateWinner(squares);
   const nextPlayer = isDogNext ? "🐶" : "🐱‍👤";
-  // const status = isDogNext ? "Next player: 🐶" : "Next player: 🐱‍👤";
-  // const status = "Next player: " + (isDogNext ? "🐶" : "🐱‍👤");
-  const status = `Next player: ${nextPlayer}`;
+  const status = winner ? `Winner: ${winner}` : `Next player: ${nextPlayer}`;
 
   const handleClick = (index) => {
+    // Do we have a winner or is the square set?
+    if (winner || squares[index]) {
+      // Abort function
+      return;
+    }
     // Copy squares
     const squaresClone = [...squares];
 
     // Modify value by index
     squaresClone[index] = nextPlayer;
-    // if (isDogNext) {
-    //   squaresClone[index] = "🐶";
-    // } else {
-    //   squaresClone[index] = "🐱‍👤"
-    // }
 
     // Set new state
     setSquares(squaresClone);
